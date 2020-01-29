@@ -1,0 +1,42 @@
+﻿@model examentp.Models.carte
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>carte</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.num_carte)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.num_carte)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.date_exp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.date_exp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.compte.nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.compte.nom)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.code_carte }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

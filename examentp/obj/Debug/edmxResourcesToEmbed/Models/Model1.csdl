@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="banqueModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="carte">
+    <Key>
+      <PropertyRef Name="code_carte" />
+    </Key>
+    <Property Name="code_carte" Type="Int32" Nullable="false" />
+    <Property Name="code_client" Type="Int32" Nullable="false" />
+    <Property Name="num_carte" Type="Int32" Nullable="false" />
+    <Property Name="date_exp" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="compte" Relationship="Self.FK_carte_compte" FromRole="carte" ToRole="compte" />
+  </EntityType>
+  <EntityType Name="compte">
+    <Key>
+      <PropertyRef Name="code_client" />
+    </Key>
+    <Property Name="code_client" Type="Int32" Nullable="false" />
+    <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="adresse" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="cartes" Relationship="Self.FK_carte_compte" FromRole="compte" ToRole="carte" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_carte_compte">
+    <End Role="compte" Type="Self.compte" Multiplicity="1" />
+    <End Role="carte" Type="Self.carte" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="compte">
+        <PropertyRef Name="code_client" />
+      </Principal>
+      <Dependent Role="carte">
+        <PropertyRef Name="code_client" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="banqueEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="cartes" EntityType="Self.carte" />
+    <EntitySet Name="comptes" EntityType="Self.compte" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_carte_compte" Association="Self.FK_carte_compte">
+      <End Role="compte" EntitySet="comptes" />
+      <End Role="carte" EntitySet="cartes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
